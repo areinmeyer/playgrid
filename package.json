@@ -1,7 +1,7 @@
 {
-  "name": "react-datagrid2",
+  "name": "@areinmeyer/react-datagrid",
   "version": "3.0.0",
-  "description": "React DataGrid",
+  "description": "React DataGrid for play",
   "main": "lib/index.js",
   "scripts": {
     "test": "mocha --recursive --reporter spec --require should",
@@ -21,7 +21,7 @@
   },
   "repository": {
     "type": "git",
-    "url": "https://github.com/stevelacy/react-datagrid2.git"
+    "url": "https://github.com/areinmeyer/react-datagrid.git"
   },
   "keywords": [
     "grid",
@@ -92,11 +92,11 @@
     "react": ">=16.0.0",
     "react-dom": ">=16.0.0"
   },
-  "author": "ZippyUI ~2016 | Steve Lacy ~2017",
+  "author": "ZippyUI ~2016 | Steve Lacy ~2017 | Allen Reinmeyer ~2018",
   "contributors": [],
   "license": "MIT",
   "bugs": {
-    "url": "https://github.com/stevelacy/react-datagrid2/issues"
+    "url": "https://github.com/areinmeyer/react-datagrid/issues"
   },
-  "homepage": "https://github.com/stevelacy/react-datagrid2"
+  "homepage": "https://github.com/areinmeyer/react-datagrid"
 }
