@@ -5,9 +5,10 @@ require('es6-promise').polyfill()
 
 import { findDOMNode } from 'react-dom'
 import React from 'react'
+var DOM = require('react-dom-factories')
 
+var createClass = require('create-react-class')
 var assign   = require('object-assign')
-import LoadMask from 'react-load-mask'
 var Region   = require('region')
 
 var PaginationToolbar = React.createFactory(require('./PaginationToolbar'))
@@ -80,7 +81,7 @@ function findColumn(columns, column){
     }
 }
 
-module.exports = React.createClass({
+module.exports = createClass({
 
     displayName: 'ReactDataGrid',
 
@@ -109,6 +110,10 @@ module.exports = React.createClass({
         onDataSourceResponse: PropTypes.func,
         onDataSourceSuccess: PropTypes.func,
         onDataSourceError: PropTypes.func,
+
+        // add elements to the start or end of the header
+        headerPrefix: PropTypes.func,
+        headerPostfix: PropTypes.func,
 
         /**
          * @cfg {Number/String} columnMinWidth=50
@@ -376,13 +381,14 @@ module.exports = React.createClass({
             showMenu         : this.showMenu,
             filterMenuFactory : this.filterMenuFactory,
             menuColumn       : state.menuColumn,
-            columnMenuFactory: props.columnMenuFactory
-
+            columnMenuFactory: props.columnMenuFactory,
+            prefix: props.headerPrefix,
+            postfix: props.headerPostfix
         })
     },
 
     prepareFooter: function(props, state){
-        return (props.footerFactory || React.DOM.div)({
+        return (props.footerFactory || DOM.div)({
             className: 'z-footer-wrapper'
         })
     },
@@ -426,11 +432,11 @@ module.exports = React.createClass({
             menu   : this.state.menu
         }
 
-        var loadMask
-
-        if (props.loadMaskOverHeader){
-            loadMask = <LoadMask visible={props.loading} />
-        }
+        // var loadMask
+        //
+        // if (props.loadMaskOverHeader){
+        //     loadMask = <LoadMask visible={props.loading} />
+        // }
 
         var paginationToolbar
 
@@ -480,7 +486,7 @@ module.exports = React.createClass({
                     {resizeProxy}
                 </div>
 
-                {loadMask}
+                {/* {loadMask} */}
                 {renderMenu(menuProps)}
                 {bottomToolbar}
             </div>

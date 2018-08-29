@@ -3,7 +3,8 @@
 var React = require('react')
 var PropTypes = require('prop-types')
 var Region = require('region')
-var ReactMenu = React.createFactory(require('react-menus'))
+var ReactMenu = React.createFactory(require('react-menus2'))
+var createClass = require('create-react-class')
 var assign = require('object-assign')
 var clone = require('clone')
 var asArray = require('../utils/asArray')
@@ -55,12 +56,15 @@ function getDropState(){
     }
 }
 
-module.exports = React.createClass({
+module.exports = createClass({
 
     displayName: 'ReactDataGrid.Header',
 
     propTypes: {
-        columns: PropTypes.array
+        columns: PropTypes.array,
+        // add elements to the start or end of the header
+        prefix: PropTypes.func,
+        postfix: PropTypes.func,
     },
 
     onDrop: function(event){
@@ -154,9 +158,11 @@ module.exports = React.createClass({
 
         return (
             <div style={style} className={props.className}>
+                {props.prefix && props.prefix()}
                 <div className='z-header' style={headerStyle}>
                     {cells}
                 </div>
+                {props.postfix && props.postfix()}
             </div>
         )
     },
