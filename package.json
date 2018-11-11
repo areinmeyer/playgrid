@@ -1,7 +1,7 @@
 {
-  "name": "@areinmeyer/react-datagrid",
-  "version": "3.0.0",
-  "description": "React DataGrid for play",
+  "name": "playgrid",
+  "version": "1.0.0",
+  "description": "React DataGrid for play, based on now defunct react-datagrid",
   "main": "lib/index.js",
   "scripts": {
     "test": "mocha --recursive --reporter spec --require should",
@@ -27,13 +27,10 @@
     "grid",
     "datagrid",
     "data-grid",
-    "grid",
-    "widget",
     "table",
     "list",
     "react-component",
-    "react",
-    "grid"
+    "react"
   ],
   "devDependencies": {
     "autoprefixer-loader": "^3.2.0",

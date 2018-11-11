@@ -13,8 +13,8 @@ module.exports = {
   output: {
     path         : __dirname + '/../dist',
     libraryTarget: 'umd',
-    library      : 'DataGrid',
-    filename     : 'react-datagrid.min.js'
+    library      : 'PlayGrid',
+    filename     : 'playgrid.min.js'
   },
   module: {
     loaders: loaders,

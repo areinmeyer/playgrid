@@ -5,7 +5,7 @@ require('./index.styl')
 var sorty = require('sorty')
 var React = require('react')
 var ReactDOM = require('react-dom')
-var DataGrid = require('./src')
+var PlayGrid = require('./src')
 var faker = window.faker = require('faker');
 var preventDefault = require('./src/utils/preventDefault')
 
@@ -71,7 +71,7 @@ class App extends React.Component {
     }
 
     render() {
-        return <DataGrid
+        return <PlayGrid
             ref="dataGrid"
             idProperty='id'
             dataSource={data}
