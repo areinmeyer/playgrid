@@ -3,8 +3,8 @@
 require('es6-promise').polyfill()
 
 
-import { findDOMNode } from 'react-dom'
-import React from 'react'
+var reactDOM = require('react-dom')
+var React = require('react')
 var DOM = require('react-dom-factories')
 
 var createClass = require('create-react-class')
@@ -1114,7 +1114,7 @@ module.exports = createClass({
 
     onColumnResizeDragStart: function(config){
 
-        var domNode = findDOMNode(this)
+        var domNode = reactDOM.findDOMNode(this)
         var region  = Region.from(domNode)
 
         this.resizeProxyLeft = config.resizeProxyLeft - region.left
@@ -1142,7 +1142,7 @@ module.exports = createClass({
                 //FF needs this, since it does not trigger scroll event when scrollbar dissapears
                 //so we might end up with grid content not visible (to the left)
 
-                var domNode = findDOMNode(horizScrollbar)
+                var domNode = reactDOM.findDOMNode(horizScrollbar)
                 if (domNode && !domNode.scrollLeft){
                     this.handleScrollLeft(0)
                 }
