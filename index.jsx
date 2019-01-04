@@ -55,9 +55,11 @@ var columns = [
 var ROW_HEIGHT = 31
 var LEN = 2000
 var SORT_INFO = [{name: 'country', dir: 'asc'}]//[ { name: 'id', dir: 'asc'} ]
-var sort = sorty(SORT_INFO)
 var data = gen(LEN);
 
+function sort() {
+  return sorty(SORT_INFO, data);
+}
 class App extends React.Component {
     constructor(props, context) {
         super(props, context);
@@ -84,8 +86,9 @@ class App extends React.Component {
     }
 
     handleSortChange(sortInfo) {
+        console.log(sortInfo)
         SORT_INFO = sortInfo
-        data = sort(data)
+        data = sort()
         this.setState({})
     }
 }
