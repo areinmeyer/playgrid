@@ -5,9 +5,9 @@ require('es6-promise').polyfill()
 
 import { findDOMNode } from 'react-dom'
 import React from 'react'
+import { hot } from 'react-hot-loader'
 var DOM = require('react-dom-factories')
 
-var createClass = require('create-react-class')
 var assign   = require('object-assign')
 var Region   = require('region')
 
@@ -81,66 +81,31 @@ function findColumn(columns, column){
     }
 }
 
-module.exports = createClass({
+class ReactDataGrid extends React.Component {
 
-    displayName: 'ReactDataGrid',
+  constructor(props) {
+    super(props)
+  }
+    // Commented out. Probably need this though...
+    // mixins: [
+    //     require('./RowSelect'),
+    //     require('./ColumnFilter')
+    // ],
 
-    mixins: [
-        require('./RowSelect'),
-        require('./ColumnFilter')
-    ],
+    // Commented out. Probably need this though...
+    // getDefaultProps: require('./getDefaultProps'),
 
-    propTypes: {
-        loading          : PropTypes.bool,
-        virtualRendering : PropTypes.bool,
-
-        //specify false if you don't want any column to be resizable
-        resizableColumns : PropTypes.bool,
-        filterable: PropTypes.bool,
-
-        //specify false if you don't want column menus to be displayed
-        withColumnMenu   : PropTypes.bool,
-        cellEllipsis     : PropTypes.bool,
-        sortable         : PropTypes.bool,
-        loadMaskOverHeader : PropTypes.bool,
-        idProperty       : PropTypes.string.isRequired,
-
-        //you can customize the column menu by specifying a factory
-        columnMenuFactory: PropTypes.func,
-        onDataSourceResponse: PropTypes.func,
-        onDataSourceSuccess: PropTypes.func,
-        onDataSourceError: PropTypes.func,
-
-        /**
-         * @cfg {Number/String} columnMinWidth=50
-         */
-        columnMinWidth   : RowPropTypes.numeric,
-        scrollBy         : RowPropTypes.numeric,
-        rowHeight        : RowPropTypes.numeric,
-        sortInfo         : RowPropTypes.sortInfo,
-        columns          : RowPropTypes.column,
-
-        data: function(props, name){
-            var value = props[name]
-            if (isArray(value)){
-                return new Error('We are deprecating the "data" array prop. Use "dataSource" instead! It can either be an array (for local data) or a remote data source (string url, promise or function)')
-            }
-        }
-    },
-
-    getDefaultProps: require('./getDefaultProps'),
-
-    componentDidMount: function(){
+    componentDidMount() {
         window.addEventListener('click', this.windowClickListener = this.onWindowClick)
         // this.checkRowHeight(this.props)
-    },
+    }
 
-    componentWillUnmount: function(){
+    componentWillUnmount(){
         this.scroller = null
         window.removeEventListener('click', this.windowClickListener)
-    },
+    }
 
-    // checkRowHeight: function(props) {
+    // checkRowHeight(props) {
     //     if (this.isVirtualRendering(props)){
 
     //         //if virtual rendering and no rowHeight specifed, we use
@@ -156,18 +121,18 @@ module.exports = createClass({
     //         //this ensures rows are kept in view
     //         this.updateStartIndex(props, undefined, config)
     //     }
-    // },
+    // }
 
-    onWindowClick: function(event){
+    onWindowClick(event){
         if (this.state.menu){
             this.setState({
                 menuColumn: null,
                 menu      : null
             })
         }
-    },
+    }
 
-    getInitialState: function(){
+    getInitialState(){
 
         var props = this.props
         var defaultSelected = props.defaultSelected
@@ -182,21 +147,21 @@ module.exports = createClass({
             defaultPageSize: props.defaultPageSize,
             defaultPage : props.defaultPage
         }
-    },
+    }
 
-    updateStartIndex: function() {
+    updateStartIndex() {
         this.handleScrollTop()
-    },
+    }
 
-    handleScrollLeft: function(scrollLeft){
+    handleScrollLeft(scrollLeft){
 
         this.setState({
             scrollLeft: scrollLeft,
             menuColumn: null
         })
-    },
+    }
 
-    handleScrollTop: function(scrollTop){
+    handleScrollTop(scrollTop){
         var props = this.p
         var state = this.state
 
@@ -246,9 +211,9 @@ module.exports = createClass({
         }
 
         this.setState(state)
-    },
+    }
 
-    getRenderEndIndex: function(props, state){
+    getRenderEndIndex(props, state){
         var startIndex = state.startIndex
         var rowCount   = props.rowCountBuffer
         var length     = props.data.length
@@ -274,13 +239,13 @@ module.exports = createClass({
         }
 
         return endIndex
-    },
+    }
 
-    onDropColumn: function(index, dropIndex){
+    onDropColumn(index, dropIndex){
         ;(this.props.onColumnOrderChange || emptyFn)(index, dropIndex)
-    },
+    }
 
-    toggleColumn: function(props, column){
+    toggleColumn(props, column){
 
         var visible = column.visible
         var visibility = this.state.visibility
@@ -314,17 +279,17 @@ module.exports = createClass({
             this.cleanCache()
             this.setState({})
         }
-    },
+    }
 
-    cleanCache: function() {
+    cleanCache() {
         //so grouped rows are re-rendered
         delete this.groupedRows
 
         //clear row cache
         this.rowCache = {}
-    },
+    }
 
-    showMenu: function(menu, state){
+    showMenu(menu, state){
 
         state = state || {}
         state.menu = menu
@@ -341,9 +306,9 @@ module.exports = createClass({
             //show it in a timeout, after the click event has reached the window
             this.setState(state)
         }.bind(this), 0)
-    },
+    }
 
-    prepareHeader: function(props, state){
+    prepareHeader(props, state){
 
         var allColumns = props.columns
         var columns    = getVisibleColumns(props, state)
@@ -380,15 +345,15 @@ module.exports = createClass({
             columnMenuFactory: props.columnMenuFactory
 
         })
-    },
+    }
 
-    prepareFooter: function(props, state){
+    prepareFooter(props, state){
         return (props.footerFactory || DOM.div)({
             className: 'z-footer-wrapper'
         })
-    },
+    }
 
-    prepareRenderProps: function(props){
+    prepareRenderProps(props){
 
         var result = {}
         var list = {
@@ -404,9 +369,9 @@ module.exports = createClass({
         })
 
         return result
-    },
+    }
 
-    render: function(){
+    render(){
 
         var props = this.prepareProps(this.props, this.state)
 
@@ -488,9 +453,9 @@ module.exports = createClass({
         )
 
         return result
-    },
+    }
 
-    getTableProps: function(props, state){
+    getTableProps(props, state){
         var table
         var rows
 
@@ -502,9 +467,9 @@ module.exports = createClass({
         table = getTableProps.call(this, props, rows)
 
         return table
-    },
+    }
 
-    handleVerticalScrollOverflow: function(sign, scrollTop) {
+    handleVerticalScrollOverflow(sign, scrollTop) {
 
         var props = this.p
         var page  = props.page
@@ -512,21 +477,21 @@ module.exports = createClass({
         if (this.isValidPage(page + sign, props)){
             this.gotoPage(page + sign)
         }
-    },
+    }
 
-    fixHorizontalScrollbar: function() {
+    fixHorizontalScrollbar() {
         var scroller = this.scroller
 
         if (scroller){
             scroller.fixHorizontalScrollbar()
         }
-    },
+    }
 
-    onWrapperMount: function(wrapper, scroller){
+    onWrapperMount(wrapper, scroller){
         this.scroller = scroller
-    },
+    }
 
-    prepareWrapper: function(props, state){
+    prepareWrapper(props, state){
         var virtualRendering = props.virtualRendering
 
         var data       = props.data
@@ -610,17 +575,17 @@ module.exports = createClass({
 
         return (props.WrapperFactory || WrapperFactory)(wrapperProps)
 
-    },
+    }
 
-    handleRowClick: function(rowProps, event){
+    handleRowClick(rowProps, event){
         if (this.props.onRowClick){
             this.props.onRowClick(rowProps.data, rowProps, event)
         }
 
         this.handleSelection(rowProps, event)
-    },
+    }
 
-    prepareProps: function(thisProps, state){
+    prepareProps(thisProps, state){
         var props = assign({}, thisProps)
 
         props.loading    = this.prepareLoading(props)
@@ -644,14 +609,14 @@ module.exports = createClass({
         props.minRowWidth = props.totalColumnWidth + props.scrollbarSize
 
         return props
-    },
+    }
 
-    prepareLoading: function(props) {
+    prepareLoading(props) {
         var showLoadMask = props.showLoadMask || !this.isMounted() //ismounted check for initial load
         return props.loading == null? showLoadMask && this.state.defaultLoading: props.loading
-    },
+    }
 
-    preparePaging: function(props, state) {
+    preparePaging(props, state) {
         props.pagination = this.preparePagination(props)
 
         if (props.pagination){
@@ -662,27 +627,27 @@ module.exports = createClass({
             props.maxPage = Math.ceil((props.dataSourceCount || 1) / props.pageSize)
             props.page    = clamp(this.preparePage(props), props.minPage, props.maxPage)
         }
-    },
+    }
 
-    preparePagination: function(props) {
+    preparePagination(props) {
         return props.pagination === false?
                 false:
                 !!props.pageSize || !!props.paginationFactory || this.isRemoteDataSource(props)
-    },
+    }
 
-    prepareDataSourceCount: function(props) {
+    prepareDataSourceCount(props) {
         return props.dataSourceCount == null? this.state.defaultDataSourceCount: props.dataSourceCount
-    },
+    }
 
-    preparePageSize: function(props) {
+    preparePageSize(props) {
         return props.pageSize == null? this.state.defaultPageSize: props.pageSize
-    },
+    }
 
-    preparePage: function(props) {
+    preparePage(props) {
         return props.page == null?
             this.state.defaultPage:
             props.page
-    },
+    }
     /**
      * Returns true if in the current configuration,
      * the datagrid should load its data remotely.
@@ -690,13 +655,13 @@ module.exports = createClass({
      * @param  {Object}  [props] Optional. If not given, this.props will be used
      * @return {Boolean}
      */
-    isRemoteDataSource: function(props) {
+    isRemoteDataSource(props) {
         props = props || this.props
 
         return props.dataSource && !isArray(props.dataSource)
-    },
+    }
 
-    prepareDataSource: function(props) {
+    prepareDataSource(props) {
         var dataSource = props.dataSource
 
         if (isArray(dataSource)){
@@ -704,9 +669,9 @@ module.exports = createClass({
         }
 
         return dataSource
-    },
+    }
 
-    prepareData: function(props) {
+    prepareData(props) {
 
         var data = null
 
@@ -725,43 +690,43 @@ module.exports = createClass({
         }
 
         return data
-    },
+    }
 
-    prepareFilterable: function(props) {
+    prepareFilterable(props) {
         if (props.filterable === false){
             return false
         }
 
         return props.filterable || !!props.onFilter
-    },
+    }
 
-    prepareResizableColumns: function(props) {
+    prepareResizableColumns(props) {
         if (props.resizableColumns === false){
             return false
         }
 
         return props.resizableColumns || !!props.onColumnResize
-    },
+    }
 
-    prepareReorderColumns: function(props) {
+    prepareReorderColumns(props) {
         if (props.reorderColumns === false){
             return false
         }
 
         return props.reorderColumns || !!props.onColumnOrderChange
-    },
+    }
 
-    isVirtualRendering: function(props){
+    isVirtualRendering(props){
         props = props || this.props
 
         return props.virtualRendering || (props.rowHeight != null)
-    },
+    }
 
-    prepareRowHeight: function(){
+    prepareRowHeight(){
         return this.props.rowHeight == null? this.state.rowHeight: this.props.rowHeight
-    },
+    }
 
-    groupData: function(props){
+    groupData(props){
         if (props.groupBy){
             var data = this.prepareData(props)
 
@@ -771,32 +736,32 @@ module.exports = createClass({
 
             delete this.groupedRows
         }
-    },
+    }
 
-    isValidPage: function(page, props) {
+    isValidPage(page, props) {
         return page >= 1 && page <= this.getMaxPage(props)
-    },
+    }
 
-    getMaxPage: function(props) {
+    getMaxPage(props) {
         props = props || this.props
 
         var count    = this.prepareDataSourceCount(props) || 1
         var pageSize = this.preparePageSize(props)
 
         return Math.ceil(count / pageSize)
-    },
+    }
 
-    reload: function() {
+    reload() {
         if (this.dataSource){
             return this.loadDataSource(this.dataSource, this.props)
         }
-    },
+    }
 
-    clampPage: function(page) {
+    clampPage(page) {
         return clamp(page, 1, this.getMaxPage(this.props))
-    },
+    }
 
-    setPageSize: function(pageSize) {
+    setPageSize(pageSize) {
 
         var stateful
         var newPage = this.preparePage(this.props)
@@ -831,9 +796,9 @@ module.exports = createClass({
             this.reload()
             this.setState(newState)
         }
-    },
+    }
 
-    gotoPage: function(page) {
+    gotoPage(page) {
         if (typeof this.props.onPageChange == 'function'){
             this.props.onPageChange(page)
         } else {
@@ -845,7 +810,7 @@ module.exports = createClass({
 
             return result
         }
-    },
+    }
 
     /**
      * Loads remote data
@@ -853,7 +818,7 @@ module.exports = createClass({
      * @param  {String/Function/Promise} [dataSource]
      * @param  {Object} [props]
      */
-    loadDataSource: function(dataSource, props) {
+    loadDataSource(dataSource, props) {
         props = props || this.props
 
         if (!arguments.length){
@@ -982,18 +947,18 @@ module.exports = createClass({
         }
 
         return dataSource
-    },
+    }
 
-    componentWillMount: function(){
+    componentWillMount(){
         this.rowCache = {}
         this.groupData(this.props)
 
         if (this.isRemoteDataSource(this.props)){
             this.loadDataSource(this.props.dataSource, this.props)
         }
-    },
+    }
 
-    componentWillReceiveProps: function(nextProps){
+    componentWillReceiveProps(nextProps){
         this.rowCache = {}
         this.groupData(nextProps)
 
@@ -1005,17 +970,17 @@ module.exports = createClass({
                 this.loadDataSource(nextProps.dataSource, nextProps)
             }
         }
-    },
+    }
 
-    prepareStyle: function(props){
+    prepareStyle(props){
         var style = {}
 
         assign(style, props.defaultStyle, props.style)
 
         return style
-    },
+    }
 
-    prepareClassName: function(props){
+    prepareClassName(props){
         props.className = props.className || ''
         props.className += ' ' + props.defaultClassName
 
@@ -1043,14 +1008,14 @@ module.exports = createClass({
         if (props.empty){
             props.className += ' ' + props.emptyCls
         }
-    },
+    }
 
     ///////////////////////////////////////
     ///
     /// Code dealing with preparing columns
     ///
     ///////////////////////////////////////
-    prepareColumns: function(props, state){
+    prepareColumns(props, state){
         props.columns = props.columns.map(function(col, index){
             col = Column(col, props)
             col.index = index
@@ -1060,9 +1025,9 @@ module.exports = createClass({
         this.prepareColumnSizes(props, state)
 
         props.columns.forEach(this.prepareColumnStyle.bind(this, props))
-    },
+    }
 
-    prepareColumnStyle: function(props, column){
+    prepareColumnStyle(props, column){
         var style = column.sizeStyle = {}
 
         column.style     = assign({}, column.style)
@@ -1078,9 +1043,9 @@ module.exports = createClass({
             style.width    = column.width
             style.minWidth = column.width
         }
-    },
+    }
 
-    prepareColumnSizes: function(props, state){
+    prepareColumnSizes(props, state){
 
         var visibleColumns = getVisibleColumns(props, state)
         var totalWidth     = 0
@@ -1101,13 +1066,13 @@ module.exports = createClass({
 
         props.columnFlexCount  = flexCount
         props.totalColumnWidth = totalWidth
-    },
+    }
 
-    prepareResizeProxy: function(props, state){
+    prepareResizeProxy(props, state){
         return <ResizeProxy ref="resizeProxy" active={state.resizing}/>
-    },
+    }
 
-    onColumnResizeDragStart: function(config){
+    onColumnResizeDragStart(config){
 
         var domNode = findDOMNode(this)
         var region  = Region.from(domNode)
@@ -1119,15 +1084,15 @@ module.exports = createClass({
             resizeOffset: this.resizeProxyLeft
         })
 
-    },
+    }
 
-    onColumnResizeDrag: function(config){
+    onColumnResizeDrag(config){
         this.refs.resizeProxy.setState({
             offset: this.resizeProxyLeft + config.resizeProxyDiff
         })
-    },
+    }
 
-    onColumnResizeDrop: function(config, resizeInfo){
+    onColumnResizeDrop(config, resizeInfo){
 
         var horizScrollbar = this.refs.wrapper.refs.horizScrollbar
 
@@ -1171,4 +1136,44 @@ module.exports = createClass({
 
         onColumnResize(firstCol, firstSize, secondCol, secondSize)
     }
-})
+}
+
+export default hot(ReactDataGrid)
+
+ReactDataGrid.PropTypes: {
+    loading          : PropTypes.bool,
+    virtualRendering : PropTypes.bool,
+
+    //specify false if you don't want any column to be resizable
+    resizableColumns : PropTypes.bool,
+    filterable: PropTypes.bool,
+
+    //specify false if you don't want column menus to be displayed
+    withColumnMenu   : PropTypes.bool,
+    cellEllipsis     : PropTypes.bool,
+    sortable         : PropTypes.bool,
+    loadMaskOverHeader : PropTypes.bool,
+    idProperty       : PropTypes.string.isRequired,
+
+    //you can customize the column menu by specifying a factory
+    columnMenuFactory: PropTypes.func,
+    onDataSourceResponse: PropTypes.func,
+    onDataSourceSuccess: PropTypes.func,
+    onDataSourceError: PropTypes.func,
+
+    /**
+     * @cfg {Number/String} columnMinWidth=50
+     */
+    columnMinWidth   : RowPropTypes.numeric,
+    scrollBy         : RowPropTypes.numeric,
+    rowHeight        : RowPropTypes.numeric,
+    sortInfo         : RowPropTypes.sortInfo,
+    columns          : RowPropTypes.column,
+
+    data(props, name){
+        var value = props[name]
+        if (isArray(value)){
+            return new Error('We are deprecating the "data" array prop. Use "dataSource" instead! It can either be an array (for local data) or a remote data source (string url, promise or function)')
+        }
+    }
+}

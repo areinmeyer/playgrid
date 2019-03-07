@@ -13,7 +13,8 @@ var resolve   = require('./resolve')
 module.exports = {
   entry: entry,
   output: {
-    publicPath: PUBLIC
+    path: PUBLIC,
+    filename: '[name].js'
   },
   module: {
     loaders: loaders
