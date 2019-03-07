@@ -8,7 +8,7 @@ var Scroller = require('react-virtual-scroller2')
 
 function emptyFn(){}
 
-module.exports = createClass({
+export default createClass({
 
     displayName: 'ReactDataGrid.Wrapper',
 
@@ -55,7 +55,8 @@ module.exports = createClass({
                 onMount={this.onMount}
                 preventDefaultHorizontal={true}
 
-                loadMask={!props.loadMaskOverHeader}
+                // loadMask={!props.loadMaskOverHeader}
+                loadMask={false}
                 loading={props.loading}
 
                 scrollbarSize={props.scrollbarSize}

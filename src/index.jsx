@@ -81,7 +81,7 @@ function findColumn(columns, column){
     }
 }
 
-module.exports = createClass({
+export default createClass({
 
     displayName: 'ReactDataGrid',
 

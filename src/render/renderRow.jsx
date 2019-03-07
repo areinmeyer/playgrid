@@ -22,7 +22,7 @@ var renderCell = Row.prototype.renderCell
  *
  * @return {ReactElement}
  */
-module.exports = function renderRow(props, data, index, fn){
+export default function renderRow(props, data, index, fn){
     var factory     = props.rowFactory || RowFactory
     var key         = data[props.idProperty]
     var selectedKey = key

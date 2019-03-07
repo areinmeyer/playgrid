@@ -73,6 +73,6 @@ function renderGroups(props, groupsData){
     return result
 }
 
-module.exports = function(props, groupData){
+export default function(props, groupData){
     return renderGroups(props, groupData)
 }

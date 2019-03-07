@@ -1,8 +1,5 @@
-'use strict';
-
-var React  = require('react')
+import React, { Component } from 'react'
 var DOM = require('react-dom-factories')
-var createClass = require('create-react-class')
 var PropTypes = require('prop-types')
 var assign = require('object-assign')
 var normalize = require('react-style-normalizer')
@@ -22,41 +19,8 @@ function copyProps(target, source, list){
 
 }
 
-var Cell = createClass({
-
-    displayName: 'ReactDataGrid.Cell',
-
-    propTypes: {
-        className     : PropTypes.string,
-        firstClassName: PropTypes.string,
-        lastClassName : PropTypes.string,
-
-        contentPadding: PropTypes.oneOfType([
-            PropTypes.number,
-            PropTypes.string
-        ]),
-
-        column : PropTypes.object,
-        columns: PropTypes.array,
-        index  : PropTypes.number,
-
-        style      : PropTypes.object,
-        text       : PropTypes.any,
-        rowIndex   : PropTypes.number
-    },
-
-    getDefaultProps: function(){
-        return {
-            text: '',
-
-            firstClassName: 'z-first',
-            lastClassName : 'z-last',
-
-            defaultStyle: {}
-        }
-    },
-
-    prepareClassName: function(props) {
+export class Cell extends Component {
+    prepareClassName(props) {
         var index     = props.index
         var columns   = props.columns
         var column    = props.column
@@ -82,9 +46,9 @@ var Cell = createClass({
         }
 
         return className
-    },
+    }
 
-    prepareStyle: function(props) {
+    prepareStyle(props) {
         var column    = props.column
         var sizeStyle = column && column.sizeStyle
 
@@ -98,9 +62,9 @@ var Cell = createClass({
         var style = assign({}, props.defaultStyle, sizeStyle, alignStyle, props.style)
 
         return normalize(style)
-    },
+    }
 
-    prepareProps: function(thisProps){
+    prepareProps(thisProps) {
       var props = assign({}, thisProps)
 
       if (!props.column && props.columns){
@@ -119,9 +83,9 @@ var Cell = createClass({
       delete props.defaultStyle
 
       return props
-    },
+    }
 
-    render: function(){
+    render(){
       var props = this.p = this.prepareProps(this.props)
 
       var {
@@ -150,8 +114,31 @@ var Cell = createClass({
             </div>
         )
     }
-})
+}
 
 Cell.className = 'z-cell'
+Cell.displayName= 'ReactDataGrid.Cell'
+Cell.propTypes= {
+        className     : PropTypes.string,
+        firstClassName: PropTypes.string,
+        lastClassName : PropTypes.string,
 
-module.exports = Cell
+        contentPadding: PropTypes.oneOfType([
+            PropTypes.number,
+            PropTypes.string
+        ]),
+
+        column : PropTypes.object,
+        columns: PropTypes.array,
+        index  : PropTypes.number,
+
+        style      : PropTypes.object,
+        text       : PropTypes.any,
+        rowIndex   : PropTypes.number
+}
+Cell.defaultProps = {
+    text: '',
+    firstClassName: 'z-first',
+    lastClassName : 'z-last',
+    defaultStyle: {}
+}

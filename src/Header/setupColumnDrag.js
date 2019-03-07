@@ -28,7 +28,7 @@ function buildIndexes(direction, index, dragIndex){
     return result
 }
 
-module.exports = function(header, props, column, event){
+export default function(header, props, column, event){
 
     event.preventDefault()
 

@@ -15,7 +15,7 @@ function getData(props){
     return slice(props.data, props)
 }
 
-module.exports = function(props, rows){
+export default function(props, rows){
 
     rows = rows || getData(props).map(function(data, index){
         return renderRow.call(this, props, data, index + props.startIndex)

@@ -6,7 +6,7 @@ if (!global.fetch && global.window){
 
 var fetch = global.fetch
 
-module.exports = function(){
+export default function(){
     return {
         fetch: fetch,
         defaultPageSize: 20,

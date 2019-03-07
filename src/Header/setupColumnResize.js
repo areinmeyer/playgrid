@@ -6,7 +6,7 @@ var findDOMNode = require('react-dom').findDOMNode
 
 var findIndexByName = require('../utils/findIndexByName')
 
-module.exports = function(header, props, column, event){
+export default function(header, props, column, event){
 
     event.preventDefault()
 

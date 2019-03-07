@@ -1,6 +1,6 @@
 'use strict';
 
-module.exports = function(props, state){
+export default function(props, state){
     var selected = props.selected == null?
                         state.defaultSelected
                         :
